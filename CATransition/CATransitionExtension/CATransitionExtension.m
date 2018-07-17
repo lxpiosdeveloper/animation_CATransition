@@ -10,7 +10,7 @@
 
 @implementation CATransitionExtension
 
-+(void)transitionInView:(UIView *)view type:(CATExtensionType)type duration:(CFTimeInterval)duration{
++(void)transitionInView:(UIView *)view type:(CATExtensionType)type orientation:(CATOrientationType)orientation timing:(CATTimingFunctionType)timing duration:(CFTimeInterval)duration{
     if (type & CATExtensionTypeCurlDown || type & CATExtensionTypeCurlUp || type & CATExtensionTypeFlipFromLeft || type & CATExtensionTypeFlipFromRight) {
         UIViewAnimationTransition transition = UIViewAnimationTransitionNone;
         if (type & CATExtensionTypeCurlDown) {
@@ -62,13 +62,13 @@
         
         //设置动画subType
         NSString *subTypeString = nil;
-        if (type & CATOrientationExtensionTypeFromLeft) {
+        if (orientation == CATOrientationTypeFromLeft) {
             subTypeString = kCATransitionFromLeft;
-        }else if (type & CATOrientationExtensionTypeFromBottom){
+        }else if (orientation == CATOrientationTypeFromBottom){
             subTypeString = kCATransitionFromBottom;
-        }else if (type & CATOrientationExtensionTypeFromRight){
+        }else if (orientation == CATOrientationTypeFromRight){
             subTypeString = kCATransitionFromRight;
-        }else if (type & CATOrientationExtensionTypeFromTop){
+        }else if (orientation == CATOrientationTypeFromTop){
             subTypeString = kCATransitionFromTop;
         }
         if (subTypeString) {
@@ -77,14 +77,14 @@
         
         //设置动画速度
         NSString* timingFunction = kCAMediaTimingFunctionDefault;
-        if (type & CATExtensionTimingFunctionLinear) {
-            subTypeString = kCAMediaTimingFunctionLinear;
-        }else if (type & CATExtensionTimingFunctionEaseIn){
-            subTypeString = kCAMediaTimingFunctionEaseIn;
-        }else if (type & CATExtensionTimingFunctionEaseOut){
-            subTypeString = kCAMediaTimingFunctionEaseOut;
-        }else if (type & CATExtensionTimingFunctionEaseInEaseOut){
-            subTypeString = kCAMediaTimingFunctionEaseInEaseOut;
+        if (timing == CATTimingFunctionLinear) {
+            timingFunction = kCAMediaTimingFunctionLinear;
+        }else if (timing == CATTimingFunctionEaseIn){
+            timingFunction = kCAMediaTimingFunctionEaseIn;
+        }else if (timing == CATTimingFunctionEaseOut){
+            timingFunction = kCAMediaTimingFunctionEaseOut;
+        }else if (timing == CATTimingFunctionEaseInEaseOut){
+            timingFunction = kCAMediaTimingFunctionEaseInEaseOut;
         }
         animation.timingFunction = [CAMediaTimingFunction functionWithName:timingFunction];
         

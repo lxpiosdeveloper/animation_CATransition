@@ -14,8 +14,8 @@ static NSInteger const PicNum = 4;
 @interface ViewController ()
 
 @property (nonatomic, assign) CATExtensionType animationType;
-@property (nonatomic, assign) CATExtensionType orientationType;
-@property (nonatomic, assign) CATExtensionType timingType;
+@property (nonatomic, assign) CATOrientationType orientationType;
+@property (nonatomic, assign) CATTimingFunctionType timingType;
 
 @property (nonatomic, assign) int index;
 
@@ -27,11 +27,10 @@ static NSInteger const PicNum = 4;
     [super viewDidLoad];
 
     _animationType = CATExtensionTypeFade;
-    _orientationType = CATOrientationExtensionTypeNone;
-    _timingType = CATExtensionTimingFunctionDefault;
+    _orientationType = CATOrientationTypeNone;
+    _timingType = CATTimingFunctionDefault;
     
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg0"]];
-    
+    [self changeBgImage];
 }
 - (IBAction)clickAnimationBtn:(UIButton*)sender {
     NSLog(@"%ld", sender.tag);
@@ -88,31 +87,25 @@ static NSInteger const PicNum = 4;
             break;
     }
     
-    [CATransitionExtension transitionInView:self.view type:_animationType | _orientationType | _timingType duration:0.f];
+    [CATransitionExtension transitionInView:self.view type:_animationType orientation:_orientationType timing:_timingType duration:0.f];
     
-    int tempIndex = _index;
-    _index = arc4random() % PicNum;
-    if (_index == tempIndex){
-        if (_index == 0) _index++;
-        if (_index == PicNum - 1) _index--;
-    }
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:[NSString stringWithFormat:@"bg%u", _index]]];
+    [self changeBgImage];
 }
 
 - (IBAction)segmentValueChange:(UISegmentedControl*)sender {
     if (sender.tag == 100) {//Timing
         switch (sender.selectedSegmentIndex) {
             case 0:
-                _timingType = CATExtensionTimingFunctionLinear;
+                _timingType = CATTimingFunctionLinear;
                 break;
             case 1:
-                _timingType = CATExtensionTimingFunctionEaseIn;
+                _timingType = CATTimingFunctionEaseIn;
                 break;
             case 2:
-                _timingType = CATExtensionTimingFunctionEaseOut;
+                _timingType = CATTimingFunctionEaseOut;
                 break;
             case 3:
-                _timingType = CATExtensionTimingFunctionEaseInEaseOut;
+                _timingType = CATTimingFunctionEaseInEaseOut;
                 break;
             default:
                 break;
@@ -120,16 +113,16 @@ static NSInteger const PicNum = 4;
     }else{//
         switch (sender.selectedSegmentIndex) {
             case 0:
-                _timingType = CATOrientationExtensionTypeFromLeft;
+                _orientationType = CATOrientationTypeFromLeft;
                 break;
             case 1:
-                _timingType = CATOrientationExtensionTypeFromBottom;
+                _orientationType = CATOrientationTypeFromBottom;
                 break;
             case 2:
-                _timingType = CATOrientationExtensionTypeFromRight;
+                _orientationType = CATOrientationTypeFromRight;
                 break;
             case 3:
-                _timingType = CATOrientationExtensionTypeFromTop;
+                _orientationType = CATOrientationTypeFromTop;
                 break;
             default:
                 break;
@@ -138,7 +131,15 @@ static NSInteger const PicNum = 4;
     NSLog(@"%ld--%ld", sender.tag, sender.selectedSegmentIndex);
 }
 
-
+-(void)changeBgImage{
+    int tempIndex = _index;
+    _index = arc4random() % PicNum;
+    if (_index == tempIndex){
+        if (_index == 0) _index++;
+        if (_index == PicNum - 1) _index--;
+    }
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:[NSString stringWithFormat:@"bg%u", _index]]];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

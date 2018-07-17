@@ -11,47 +11,49 @@
 
 typedef NS_OPTIONS(NSInteger, CATExtensionType) {
     /* Common transition types */
-    CATExtensionTypeFade                    = 1 << 1, //淡入淡出
-    CATExtensionTypeMoveIn                  = 1 << 2, //覆盖
-    CATExtensionTypePush                    = 1 << 3, //推出
-    CATExtensionTypeReveal                  = 1 << 4, //揭开
+    CATExtensionTypeFade                    = 1 << 0, //淡入淡出
+    CATExtensionTypeMoveIn                  = 1 << 1, //覆盖
+    CATExtensionTypePush                    = 1 << 2, //推出
+    CATExtensionTypeReveal                  = 1 << 3, //揭开
     
     /* it is private */
-    CATExtensionTypeCube                    = 1 << 5, //立方体翻转
-    CATExtensionTypeSuckEffect              = 1 << 6, //吮吸
-    CATExtensionTypeOglFlip                 = 1 << 7, //翻转
-    CATExtensionTypeRippleEffect            = 1 << 8, //波纹
-    CATExtensionTypePageCurl                = 1 << 9, //翻页
-    CATExtensionTypePageUnCurl              = 1 << 10, //反翻页
-    CATExtensionTypeCameraIrisHollowOpen    = 1 << 11, //摄像头打开
-    CATExtensionTypeCameraIrisHollowClose   = 1 << 12, //摄像头关闭
+    CATExtensionTypeCube                    = 1 << 4, //立方体翻转
+    CATExtensionTypeSuckEffect              = 1 << 5, //吮吸
+    CATExtensionTypeOglFlip                 = 1 << 6, //翻转
+    CATExtensionTypeRippleEffect            = 1 << 7, //波纹
+    CATExtensionTypePageCurl                = 1 << 8, //翻页
+    CATExtensionTypePageUnCurl              = 1 << 9, //反翻页
+    CATExtensionTypeCameraIrisHollowOpen    = 1 << 10, //摄像头打开
+    CATExtensionTypeCameraIrisHollowClose   = 1 << 11, //摄像头关闭
     
     /* it is UIViewAnimationTransition */
-    CATExtensionTypeCurlDown                = 1 << 13, //下翻页
-    CATExtensionTypeCurlUp                  = 1 << 14, //上翻页
-    CATExtensionTypeFlipFromLeft            = 1 << 15, //左翻转
-    CATExtensionTypeFlipFromRight           = 1 << 16, //右翻转
-    
-    /* Common transition subtypes. */
-    CATOrientationExtensionTypeNone         = 1 << 20, //从左边
-    CATOrientationExtensionTypeFromLeft     = 2 << 20, //从左边
-    CATOrientationExtensionTypeFromBottom   = 3 << 20, //从下边
-    CATOrientationExtensionTypeFromRight    = 4 << 20, //从右边
-    CATOrientationExtensionTypeFromTop      = 5 << 20, //从上边
-    
-    /** Timing function names. **/
-    CATExtensionTimingFunctionDefault       = 1 << 21,
-    CATExtensionTimingFunctionLinear        = 2 << 21,
-    CATExtensionTimingFunctionEaseIn        = 3 << 21,
-    CATExtensionTimingFunctionEaseOut       = 4 << 21,
-    CATExtensionTimingFunctionEaseInEaseOut = 5 << 21,
+    CATExtensionTypeCurlDown                = 1 << 12, //下翻页
+    CATExtensionTypeCurlUp                  = 1 << 13, //上翻页
+    CATExtensionTypeFlipFromLeft            = 1 << 14, //左翻转
+    CATExtensionTypeFlipFromRight           = 1 << 15, //右翻转
 };
 
-typedef NS_ENUM(NSInteger, CATExtensionType) ;
+typedef NS_ENUM(NSInteger, CATOrientationType) {
+    /* Common transition subtypes. */
+    CATOrientationTypeNone         = 0 ,
+    CATOrientationTypeFromLeft     = 1 , //从左边
+    CATOrientationTypeFromBottom   = 2 , //从下边
+    CATOrientationTypeFromRight    = 3 , //从右边
+    CATOrientationTypeFromTop      = 4 , //从上边
+};
+
+typedef NS_ENUM(NSInteger, CATTimingFunctionType) {
+    /** Timing function names. **/
+    CATTimingFunctionDefault       = 0 ,
+    CATTimingFunctionLinear        = 1 ,
+    CATTimingFunctionEaseIn        = 2 ,
+    CATTimingFunctionEaseOut       = 3 ,
+    CATTimingFunctionEaseInEaseOut = 4 ,
+};
 
 @interface CATransitionExtension : NSObject
 
-+(void)transitionInView:(UIView*)view type:(CATExtensionType)type duration:(CFTimeInterval)duration;
++(void)transitionInView:(UIView*)view type:(CATExtensionType)type orientation:(CATOrientationType)orientation timing:(CATTimingFunctionType)timing duration:(CFTimeInterval)duration;
 
 @end
 
